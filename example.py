@@ -18,6 +18,12 @@ class Model:
         return f'<Model {self.id} - {self.parent!r}>'
 
 
+class SubModel(Model):
+
+    def __repr__(self):
+        return f'<SubModel {self.id} - {self.parent!r}>'
+
+
 class Leaf:
 
     def __init__(self, parent, color):
@@ -33,13 +39,18 @@ def model_factory(parent, context, *, id):
     return Model(parent, id)
 
 
+@trail.register(Root, '/root/to/submodel/{id}')
+def submodel_factory(parent, context, *, id):
+    return SubModel(parent, id)
+
+
 @trail.register(Model, '/{color}')
 def leaf_factory(parent, context, *, color):
     return Leaf(parent, color)
 
 
-print(trail.resolve(Root(), '/root/to/model/123/red', context={}))
-
+print(trail.resolve(Root(), '/root/to/model/123/red'))
+print(trail.resolve(Root(), '/root/to/submodel/234/red'))
 
 # LookupError
-trail.resolve(Root(), '/root/to/nothing', context={})
+trail.resolve(Root(), '/root/to/nothing')
