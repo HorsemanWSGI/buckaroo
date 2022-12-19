@@ -15,7 +15,7 @@ class Model:
         self.id = id
 
     def __repr__(self):
-        return f'<Model {self.id} - {self.parent!r}'
+        return f'<Model {self.id} - {self.parent!r}>'
 
 
 class Leaf:
@@ -25,7 +25,7 @@ class Leaf:
         self.color = color
 
     def __repr__(self):
-        return f'<Leaf {self.color} - {self.parent!r}'
+        return f'<Leaf {self.color} - {self.parent!r}>'
 
 
 @trail.register(Root, '/root/to/model/{id}')
