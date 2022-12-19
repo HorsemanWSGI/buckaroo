@@ -35,22 +35,24 @@ class Leaf:
 
 
 @trail.register(Root, '/root/to/model/{id}')
-def model_factory(parent, context, *, id):
+def model_factory(parent, context, *, id) -> Model:
     return Model(parent, id)
 
 
 @trail.register(Root, '/root/to/submodel/{id}')
-def submodel_factory(parent, context, *, id):
+def submodel_factory(parent, context, *, id) -> SubModel:
     return SubModel(parent, id)
 
 
+@trail.register(Root, '/root/submodel/{email}')
+def submodel_factory_bis(parent, context, *, email) -> SubModel:
+    return SubModel(parent, None)
+
+
 @trail.register(Model, '/{color}')
-def leaf_factory(parent, context, *, color):
+def leaf_factory(parent, context, *, color) -> Leaf:
     return Leaf(parent, color)
 
 
-print(trail.resolve(Root(), '/root/to/model/123/red'))
-print(trail.resolve(Root(), '/root/to/submodel/234/red'))
-
-# LookupError
-trail.resolve(Root(), '/root/to/nothing')
+import pdb
+pdb.set_trace()
